@@ -2,6 +2,7 @@
 #include <ctime>
 #include <string>
 #include <unistd.h>
+#include <cstdlib>
 
 //function declaration
 std:: string player();
@@ -10,26 +11,24 @@ std:: string computer();
 void showChoice(std:: string player, std:: string computer);
 void declareWinner(std:: string player, std:: string computer);
 
-void countdown(int seconds)
-{
-    for (int i = seconds; i >= 1; i--)
-    {
-        std::cout << i << "..." << std::endl;
-        sleep(1); // Pause for 1 second
-    }
-}
+void countdown(int seconds);
 
-int main() {
+int main() { 
 
     //declaring variable
     std:: string user;
     std:: string opponent;
+    int playerScore = 0;
+    int computerScore = 0;
 
-    user = player();
-    opponent = computer();
-    showChoice(user, opponent);
-    declareWinner(user, opponent);
-    
+    do {
+        user = player();
+        opponent = computer();
+        showChoice(user, opponent);
+        declareWinner(user, opponent);
+
+    } while(true);
+
     return 0;
 }
 
@@ -38,13 +37,59 @@ std:: string player() {
     std:: string choice;
 
     do {
-        std:: cout << "====== Rock, Paper, Scissor ======" << std:: endl;
+        std:: cout << "\n====== Rock, Paper, Scissor ======" << std:: endl;
 
         //input method
-        std:: cout << "\nEnter your choice: ";
+        std:: cout << "\nEnter your choice ('x' to exit): ";
         std:: cin >> choice;
 
-        if(choice == "Rock" || choice == "rock") {
+        if(choice == "x") {
+            std:: cout << "\nAre you sure you want to exit?: ";
+            std:: cin >> choice;
+
+            do {
+                if(choice == "Yes" || choice == "yes") {
+                    std:: cout << "\nThank you! hoped you enjoyed the game! 😃\n" << std:: endl;
+                    exit(0);
+                }
+
+                else if(choice == "No" || choice == "no") {
+                    std:: cout << "\nGlad that you've changed your mind 🥹" << std:: endl;
+                }
+
+                else {
+                    std:: cout << "\nI don't know what you're talking about\n" << std:: endl;
+                    std:: cout << "Again, do you want to exit the program?: ";
+                    std:: cin >> choice;
+
+                    if(choice == "Yes" || choice == "yes") {
+                        std:: cout << "\nThank you! hoped you enjoyed the game! 😃\n" << std:: endl;
+                        exit(0);
+                    }
+
+                    else if(choice == "No" || choice == "no") {
+                    std:: cout << "\nGlad that you've changed your mind 🥹" << std:: endl;
+                    }   
+
+                    while(choice != "Yes" && choice != "yes" && choice != "No" && choice != "no") {
+                        std:: cout << "\nAre you really that stubborn? again, do you want to exit the program: ";
+                        std:: cin >> choice;
+
+                        if(choice == "Yes" || choice == "yes") {
+                            std:: cout << "\nThank you! hoped you enjoyed the game! 😃\n" << std:: endl;
+                            exit(0);
+                        }
+
+                        else if(choice == "No" || choice == "no") {
+                            std:: cout << "\nGlad that you've changed your mind 🥹" << std:: endl;
+                        }
+                    }
+                }
+
+            } while(false);
+        }
+
+        else if(choice == "Rock" || choice == "rock") {
             std:: cout << "\nYour choice: 🪨" << std:: endl;
         }
 
@@ -57,10 +102,10 @@ std:: string player() {
         }
 
         else {
-            std:: cout << "\nError! 404! ❌\n" << std:: endl;
+            std:: cout << "\nError! 404! ❌" << std:: endl;
         } 
 
-    } while(choice != "Rock" && choice != "rock" && choice != "Paper" && choice != "paper" && choice != "Scissor" && choice != "scissor");
+    } while(choice != "Rock" && choice != "rock" && choice != "Paper" && choice != "paper" && choice != "Scissor" && choice != "scissor" && true);
     
     return choice;
 }
@@ -83,12 +128,9 @@ std:: string computer() {
 }
 
 void showChoice(std:: string player, std:: string computer) {
-    std:: cout << std:: endl;
-    std:: cout << "Computer is thinking in.. " << std:: endl;
-    std:: cout << std:: endl;
     int countdownSeconds = 3; //counts down in 3 seconds
     countdown(countdownSeconds);
-    std:: cout << "\nComputer's choice: " << computer << std:: endl;
+    std:: cout << "\n\nComputer's choice: " << computer << std:: endl;
 }
 void declareWinner(std:: string player, std:: string computer) {
     if(player == "Rock" || player == "rock") {
@@ -97,7 +139,7 @@ void declareWinner(std:: string player, std:: string computer) {
         }
 
         else if(computer == "📃") {
-            std:: cout << "\nYou lose! 😓" << std:: endl;
+            std:: cout << "\nYou lose! 😓" << std:: endl;      
         }
 
         else {
@@ -131,5 +173,14 @@ void declareWinner(std:: string player, std:: string computer) {
         else {
             std:: cout << "\nIt's a tie! 👔" << std:: endl;
         }
+    }
+}
+
+void countdown(int seconds) {
+    std:: cout << "\nComputer is thinking";
+
+    for (int i = seconds; i >= 1; i--) {
+        std::cout << ".";
+        sleep(1); // Pause for 1 second
     }
 }
